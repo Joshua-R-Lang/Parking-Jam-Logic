@@ -22,3 +22,4 @@ RUN chmod u+x /usr/local/bin/dsharp
 
 # default command to execute when container starts
 CMD /bin/bash
+#asdf
