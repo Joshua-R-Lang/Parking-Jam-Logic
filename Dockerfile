@@ -21,4 +21,4 @@ RUN curl https://mulab.ai/cisc-204/dsharp -o /usr/local/bin/dsharp
 RUN chmod u+x /usr/local/bin/dsharp
 
 # default command to execute when container starts
-CMD /bin/bash #Josh has a vagina
+CMD /bin/bash
