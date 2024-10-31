@@ -77,6 +77,12 @@ class Barrier:
         """
         return (self.x, self.y)
 
+def set_exit(self, x, y):
+    """
+    Define the exit position where cars can leave the grid.
+    """
+    self.exit_position = (x, y)
+
 
 def generate_locations(rows=4, cols=4):
     global LOCATIONS, LOCATION_GRID
