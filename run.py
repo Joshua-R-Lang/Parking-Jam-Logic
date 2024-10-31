@@ -16,6 +16,20 @@ E = Encoding()
 
 CAR_ORIENTATIONS = ['NS', 'EW']
 
+
+LOCATIONS = []
+LOCATION_GRID = {}
+
+def generate_locations(rows=4, cols=4):
+    global LOCATIONS, LOCATION_GRID
+    
+    for row in range(1, rows + 1):
+        LOCATION_GRID[row] = {}
+        for col in range(1, cols + 1):
+            location_id = f'l{row}{col}'
+            LOCATIONS.append(location_id)
+            LOCATION_GRID[row][col] = location_id
+
 # To create propositions, create classes for them first, annotated with "@proposition" and the Encoding
 @proposition(E)
 class BasicPropositions:
