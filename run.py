@@ -20,6 +20,18 @@ CAR_ORIENTATIONS = ['NS', 'EW']
 LOCATIONS = []
 LOCATION_GRID = {}
 
+class Car:
+    def __init__(self, car_id, x, y, orientation):
+        """
+        Initialize a car with a unique ID, starting position, and orientation.
+        orientation: 0 for vertical (up/down), 1 for horizontal (right/left)
+        """
+        self.car_id = car_id
+        self.x = x
+        self.y = y
+        self.orientation = orientation  # 0 for vertical, 1 for horizontal
+
+
 def generate_locations(rows=4, cols=4):
     global LOCATIONS, LOCATION_GRID
     
