@@ -14,7 +14,7 @@ example1 = generate_board()
 # Encoding that will store all of your constraints
 E = Encoding()
 
-CAR_ORIENTATIONS = ['NS', 'EW']
+CAR_ORIENTATIONS = [0, 1] #0 for NS, 1 for EW
 
 
 LOCATIONS = []
