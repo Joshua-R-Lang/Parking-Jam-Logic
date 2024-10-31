@@ -14,6 +14,8 @@ example1 = generate_board()
 # Encoding that will store all of your constraints
 E = Encoding()
 
+CAR_ORIENTATIONS = ['NS', 'EW']
+
 # To create propositions, create classes for them first, annotated with "@proposition" and the Encoding
 @proposition(E)
 class BasicPropositions:
