@@ -6,6 +6,11 @@ from bauhaus.utils import count_solutions, likelihood
 from nnf import config
 config.sat_backend = "kissat"
 
+
+from examples import generate_board
+example1 = generate_board()
+
+
 # Encoding that will store all of your constraints
 E = Encoding()
 
