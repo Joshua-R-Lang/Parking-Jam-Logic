@@ -31,6 +31,38 @@ class Car:
         self.y = y
         self.orientation = orientation  # 0 for vertical, 1 for horizontal
 
+   def possible_moves(self, grid, barriers):
+        """
+        Generate all possible moves for the car within the grid, considering barriers and other cars.
+        """
+        moves = []
+        if self.orientation == 1:  # Horizontal car moves left or right
+            if self.can_move(grid, barriers, dx=1):
+                moves.append((self.x + 1, self.y))  # Move right
+            if self.can_move(grid, barriers, dx=-1):
+                moves.append((self.x - 1, self.y))  # Move left
+        else:  # Vertical car moves up or down
+            if self.can_move(grid, barriers, dy=1):
+                moves.append((self.x, self.y + 1))  # Move down
+            if self.can_move(grid, barriers, dy=-1):
+                moves.append((self.x, self.y - 1))  # Move up
+        return moves
+
+    def can_move(self, grid, barriers, dx=0, dy=0):
+        """
+        Check if the car can move in the given direction (dx, dy) without hitting boundaries, other cars, or barriers.
+        """
+        new_x = self.x + dx
+        new_y = self.y + dy
+        # Check grid boundaries
+        if not (0 <= new_x < len(grid[0]) and 0 <= new_y < len(grid)):
+            return False
+        # Check if cell is empty and not a barrier
+        if grid[new_y][new_x] == 0 and (new_x, new_y) not in barriers:
+            return True
+        return False
+
+
 class Barrier:
     def __init__(self, x, y):
         """
