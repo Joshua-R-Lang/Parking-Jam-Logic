@@ -17,4 +17,3 @@ def generate_board():
 example1 = generate_board()
 
 pprint.pprint(example1)
-# sup aldar u gay
