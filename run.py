@@ -31,6 +31,20 @@ class Car:
         self.y = y
         self.orientation = orientation  # 0 for vertical, 1 for horizontal
 
+class Barrier:
+    def __init__(self, x, y):
+        """
+        Initialize a barrier at a specified (x, y) position.
+        """
+        self.x = x
+        self.y = y
+
+    def position(self):
+        """
+        Return the position of the barrier as a tuple.
+        """
+        return (self.x, self.y)
+
 
 def generate_locations(rows=4, cols=4):
     global LOCATIONS, LOCATION_GRID
