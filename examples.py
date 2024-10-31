@@ -3,10 +3,13 @@
 import random
 import pprint
 
-example1 = []
+example1 = {"tiles": []}
 
-for i in range(4):
+for _ in range(4):
     row = []
-    for j in range(4):
-        row.append(random.randint(0, 2))  
-    example1.append(row)
+    for _ in range(4):
+        tile = (random.randint(0, 2))
+        row.append(tile)
+    example1["tiles"].append(row)
+    
+pprint.pprint(example1)
