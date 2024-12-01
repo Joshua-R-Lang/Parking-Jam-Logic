@@ -168,3 +168,81 @@ if __name__ == "__main__":
         # Literals are compiled to NNF here
         print(" %s: %.2f" % (vn, likelihood(T, v)))
     print()
+
+
+# Constants for grid elements
+EMPTY = 0
+BARRIER = -1
+
+class Grid:
+    def __init__(self, size=4):
+        """
+        Initialize a grid with a given size (default 4x4).
+        """
+        self.size = size
+        self.grid = [[EMPTY for _ in range(size)] for _ in range(size)]
+        self.cars = []
+        self.barriers = []
+
+    def add_car(self, car_id, x, y):
+        """
+        Add a car to the grid at position (x, y).
+        """
+        if self.is_within_bounds(x, y) and self.grid[y][x] == EMPTY:
+            self.grid[y][x] = car_id
+            self.cars.append((car_id, x, y))
+            return True
+        return False
+
+    def add_barrier(self, x, y):
+        """
+        Add a barrier to the grid at position (x, y).
+        """
+        if self.is_within_bounds(x, y) and self.grid[y][x] == EMPTY:
+            self.grid[y][x] = BARRIER
+            self.barriers.append((x, y))
+            return True
+        return False
+
+    def is_within_bounds(self, x, y):
+        """
+        Check if a position (x, y) is within the grid bounds.
+        """
+        return 0 <= x < self.size and 0 <= y < self.size
+
+    def display(self):
+        """
+        Print the current state of the grid.
+        """
+        for row in self.grid:
+            print(" ".join(str(cell) if cell != EMPTY else "." for cell in row))
+        print()
+
+    def randomize(self, num_cars=5, num_barriers=3):
+        """
+        Randomly populate the grid with a specified number of cars and barriers.
+        """
+        for car_id in range(1, num_cars + 1):
+            while True:
+                x, y = random.randint(0, self.size - 1), random.randint(0, self.size - 1)
+                if self.add_car(car_id, x, y):
+                    break
+
+        for _ in range(num_barriers):
+            while True:
+                x, y = random.randint(0, self.size - 1), random.randint(0, self.size - 1)
+                if self.add_barrier(x, y):
+                    break
+
+
+# Example usage
+if __name__ == "__main__":
+    # Create a 4x4 grid
+    parking_lot = Grid(size=4)
+    
+    # Randomize cars and barriers
+    parking_lot.randomize(num_cars=5, num_barriers=3)
+    
+    # Display the grid
+    print("Initial Grid State:")
+    parking_lot.display()
