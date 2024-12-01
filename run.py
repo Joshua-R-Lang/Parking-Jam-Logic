@@ -7,10 +7,6 @@ from nnf import config
 config.sat_backend = "kissat"
 
 
-from examples import generate_board
-example1 = generate_board()
-
-
 # Encoding that will store all of your constraints
 E = Encoding()
 
@@ -20,79 +16,6 @@ CAR_ORIENTATIONS = [0, 1] #0 for NS, 1 for EW
 LOCATIONS = []
 LOCATION_GRID = {}
 
-class Car:
-    def __init__(self, car_id, x, y, orientation):
-        """
-        Initialize a car with a unique ID, starting position, and orientation.
-        orientation: 0 for vertical (up/down), 1 for horizontal (right/left)
-        """
-        self.car_id = car_id
-        self.x = x
-        self.y = y
-        self.orientation = orientation  # 0 for vertical, 1 for horizontal
-
-   def possible_moves(self, grid, barriers):
-        """
-        Generate all possible moves for the car within the grid, considering barriers and other cars.
-        """
-        moves = []
-        if self.orientation == 1:  # Horizontal car moves left or right
-            if self.can_move(grid, barriers, dx=1):
-                moves.append((self.x + 1, self.y))  # Move right
-            if self.can_move(grid, barriers, dx=-1):
-                moves.append((self.x - 1, self.y))  # Move left
-        else:  # Vertical car moves up or down
-            if self.can_move(grid, barriers, dy=1):
-                moves.append((self.x, self.y + 1))  # Move down
-            if self.can_move(grid, barriers, dy=-1):
-                moves.append((self.x, self.y - 1))  # Move up
-        return moves
-
-    def can_move(self, grid, barriers, dx=0, dy=0):
-        """
-        Check if the car can move in the given direction (dx, dy) without hitting boundaries, other cars, or barriers.
-        """
-        new_x = self.x + dx
-        new_y = self.y + dy
-        # Check grid boundaries
-        if not (0 <= new_x < len(grid[0]) and 0 <= new_y < len(grid)):
-            return False
-        # Check if cell is empty and not a barrier
-        if grid[new_y][new_x] == 0 and (new_x, new_y) not in barriers:
-            return True
-        return False
-
-
-class Barrier:
-    def __init__(self, x, y):
-        """
-        Initialize a barrier at a specified (x, y) position.
-        """
-        self.x = x
-        self.y = y
-
-    def position(self):
-        """
-        Return the position of the barrier as a tuple.
-        """
-        return (self.x, self.y)
-
-def set_exit(self, x, y):
-    """
-    Define the exit position where cars can leave the grid.
-    """
-    self.exit_position = (x, y)
-
-
-def generate_locations(rows=4, cols=4):
-    global LOCATIONS, LOCATION_GRID
-    
-    for row in range(1, rows + 1):
-        LOCATION_GRID[row] = {}
-        for col in range(1, cols + 1):
-            location_id = f'l{row}{col}'
-            LOCATIONS.append(location_id)
-            LOCATION_GRID[row][col] = location_id
 
 # To create propositions, create classes for them first, annotated with "@proposition" and the Encoding
 @proposition(E)
@@ -169,70 +92,6 @@ if __name__ == "__main__":
         print(" %s: %.2f" % (vn, likelihood(T, v)))
     print()
 
-
-# Constants for grid elements
-EMPTY = 0
-BARRIER = -1
-
-class Grid:
-    def __init__(self, size=4):
-        """
-        Initialize a grid with a given size (default 4x4).
-        """
-        self.size = size
-        self.grid = [[EMPTY for _ in range(size)] for _ in range(size)]
-        self.cars = []
-        self.barriers = []
-
-    def add_car(self, car_id, x, y):
-        """
-        Add a car to the grid at position (x, y).
-        """
-        if self.is_within_bounds(x, y) and self.grid[y][x] == EMPTY:
-            self.grid[y][x] = car_id
-            self.cars.append((car_id, x, y))
-            return True
-        return False
-
-    def add_barrier(self, x, y):
-        """
-        Add a barrier to the grid at position (x, y).
-        """
-        if self.is_within_bounds(x, y) and self.grid[y][x] == EMPTY:
-            self.grid[y][x] = BARRIER
-            self.barriers.append((x, y))
-            return True
-        return False
-
-    def is_within_bounds(self, x, y):
-        """
-        Check if a position (x, y) is within the grid bounds.
-        """
-        return 0 <= x < self.size and 0 <= y < self.size
-
-    def display(self):
-        """
-        Print the current state of the grid.
-        """
-        for row in self.grid:
-            print(" ".join(str(cell) if cell != EMPTY else "." for cell in row))
-        print()
-
-    def randomize(self, num_cars=5, num_barriers=3):
-        """
-        Randomly populate the grid with a specified number of cars and barriers.
-        """
-        for car_id in range(1, num_cars + 1):
-            while True:
-                x, y = random.randint(0, self.size - 1), random.randint(0, self.size - 1)
-                if self.add_car(car_id, x, y):
-                    break
-
-        for _ in range(num_barriers):
-            while True:
-                x, y = random.randint(0, self.size - 1), random.randint(0, self.size - 1)
-                if self.add_barrier(x, y):
-                    break
 
 
 # Example usage
